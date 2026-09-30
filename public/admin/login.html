@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>تسجيل الدخول - لوحة إدارة واجهة الرمال</title>
+  
+  <link rel="icon" type="image/png" href="/images/logo.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body class="min-h-screen bg-gray-100 flex items-center justify-center p-3 sm:p-4">
+
+  <div class="w-full max-w-md">
+    
+    <!-- الشعار والترويسة -->
+    <div class="text-center mb-6">
+      <a href="/" class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white p-2 border border-gray-200 shadow-sm mb-3">
+        <img src="/images/logo.png" alt="واجهة الرمال" class="max-h-full max-w-full object-contain" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\'fa-solid fa-gears text-blue-900 text-2xl\'></i>';" />
+      </a>
+      <h1 class="text-lg sm:text-xl font-black text-gray-900">لوحة تحكم واجهة الرمال</h1>
+      <p class="text-gray-500 text-xs mt-1">بوابة الإدارة المركزية لقطع غيار السيارات</p>
+    </div>
+
+    <!-- صندوق تسجيل الدخول الفاتح النظيف -->
+    <div class="bg-white border border-gray-200 rounded-2xl p-5 sm:p-8 shadow-sm">
+      
+      <!-- تنبيه الأخطاء -->
+      <div id="login-alert" class="hidden mb-5 p-3.5 rounded-xl text-xs font-bold transition-all text-center sm:text-right"></div>
+
+      <form id="admin-login-form" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">اسم المستخدم</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
+              <i class="fa-solid fa-user text-xs"></i>
+            </span>
+            <input 
+              type="text" 
+              name="username" 
+              required 
+              autocomplete="username"
+              placeholder="admin" 
+              class="w-full pr-9 pl-3.5 py-3 rounded-xl bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs focus:bg-white focus:outline-none"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">كلمة المرور</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
+              <i class="fa-solid fa-lock text-xs"></i>
+            </span>
+            <input 
+              type="password" 
+              name="password" 
+              id="password-input"
+              required 
+              autocomplete="current-password" 
+              placeholder="••••••••" 
+              class="w-full pr-9 pl-11 py-3 rounded-xl bg-gray-50 border border-gray-300 text-gray-900 text-sm sm:text-xs focus:bg-white focus:outline-none"
+            />
+            <button 
+              type="button" 
+              id="toggle-password" 
+              class="touch-btn absolute inset-y-0 left-0 w-11 h-full flex items-center justify-center text-gray-400 hover:text-gray-600"
+              aria-label="تبديل إظهار كلمة المرور"
+            >
+              <i class="fa-regular fa-eye text-sm"></i>
+            </button>
+          </div>
+        </div>
+
+        <button 
+          id="login-submit-btn" 
+          type="submit" 
+          class="touch-btn w-full mt-2 h-12 rounded-xl bg-red-600 hover:bg-red-700 active:bg-red-800 text-white font-bold text-sm shadow-sm transition-colors flex items-center justify-center gap-2"
+        >
+          <span>تسجيل الدخول</span>
+          <i class="fa-solid fa-arrow-left text-xs"></i>
+        </button>
+      </form>
+
+      <div class="mt-5 pt-4 border-t border-gray-100 text-center">
+        <a href="/" class="touch-btn h-10 text-xs text-gray-500 hover:text-gray-800 transition-colors inline-flex items-center gap-1.5 px-3 rounded-lg">
+          <i class="fa-solid fa-arrow-right text-[10px]"></i>
+          <span>العودة لصفحة الكتالوج</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="mt-5 text-center text-xs text-gray-400">
+      <span>نظام مشفر ومحمي - شركة واجهة الرمال</span>
+    </div>
+
+  </div>
+
+  <script>
+    const toggleBtn = document.getElementById('toggle-password');
+    const pwdInput = document.getElementById('password-input');
+    toggleBtn.addEventListener('click', () => {
+      const isPwd = pwdInput.type === 'password';
+      pwdInput.type = isPwd ? 'text' : 'password';
+      toggleBtn.innerHTML = isPwd ? '<i class="fa-regular fa-eye-slash text-sm"></i>' : '<i class="fa-regular fa-eye text-sm"></i>';
+    });
+
+    const loginForm = document.getElementById('admin-login-form');
+    const alertBox = document.getElementById('login-alert');
+    const submitBtn = document.getElementById('login-submit-btn');
+
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const username = loginForm.username.value.trim();
+      const password = loginForm.password.value;
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-sm"></i><span>جاري التحقق...</span>';
+      alertBox.classList.add('hidden');
+
+      try {
+        const res = await fetch('/api/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          alertBox.className = 'mb-5 p-3.5 rounded-xl text-xs font-bold bg-emerald-50 border border-emerald-300 text-emerald-800';
+          alertBox.textContent = 'تم تسجيل الدخول بنجاح. جاري التحويل...';
+          alertBox.classList.remove('hidden');
+          setTimeout(() => {
+            window.location.href = '/admin/dashboard';
+          }, 600);
+        } else {
+          alertBox.className = 'mb-5 p-3.5 rounded-xl text-xs font-bold bg-red-50 border border-red-300 text-red-800';
+          alertBox.textContent = data.message || 'بيانات الدخول غير صحيحة.';
+          alertBox.classList.remove('hidden');
+        }
+      } catch (err) {
+        alertBox.className = 'mb-5 p-3.5 rounded-xl text-xs font-bold bg-red-50 border border-red-300 text-red-800';
+        alertBox.textContent = 'حدث خطأ في الاتصال بالخادم.';
+        alertBox.classList.remove('hidden');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span>تسجيل الدخول</span><i class="fa-solid fa-arrow-left text-xs"></i>';
+      }
+    });
+  </script>
+</body>
+</html>

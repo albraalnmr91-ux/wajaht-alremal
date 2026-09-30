@@ -1,0 +1,252 @@
+/* ====================================================
+   واجهة الرمال لقطع غيار السيارات - نمط التصميم والفيزيائية
+   Soft UI Elevation & Micro-interactions
+   ==================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --corporate-blue: #0f2942;
+  --corporate-blue-dark: #0a1c2e;
+  --corporate-red: #dc2626;
+  --corporate-red-hover: #b91c1c;
+  --soft-bg: #eef1f5;
+  --card-border: rgba(15, 23, 42, 0.07);
+  --text-dark: #0f172a;
+  --text-muted: #64748b;
+}
+
+html[lang="ar"], html[dir="rtl"] {
+  font-family: 'Cairo', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+html[lang="en"], html[dir="ltr"] {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+  background-color: var(--soft-bg);
+  color: #1e293b;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* شريط التمرير الانسيابي */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #e2e8f0;
+}
+::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* الترويسة الثابتة باللون الكحلي الرسمي */
+.header-corporate {
+  background-color: var(--corporate-blue);
+  color: #ffffff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.header-scrolled {
+  box-shadow: 0 8px 24px -4px rgba(10, 28, 46, 0.25);
+  backdrop-filter: blur(8px);
+}
+
+/* كبسولات التنقل التفاعلية (Header Scrollspy Active Pill) */
+.nav-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: #cbd5e1;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+}
+
+.nav-pill:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+.nav-pill.active {
+  background-color: var(--corporate-red) !important;
+  color: #ffffff !important;
+  font-weight: 900 !important;
+  box-shadow: 0 2px 14px rgba(220, 38, 38, 0.45);
+  transform: scale(1.04);
+}
+
+/* كبسولات قائمة الجوال النشطة */
+.mobile-nav-pill {
+  display: block;
+  padding: 0.65rem 1rem;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+.mobile-nav-pill:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.mobile-nav-pill.active {
+  background-color: var(--corporate-red) !important;
+  color: #ffffff !important;
+  font-weight: 900 !important;
+  box-shadow: 0 2px 10px rgba(220, 38, 38, 0.35);
+}
+
+/* بطاقات السوفت يو آي الفخمة (Soft UI Elevation Cards) */
+.soft-card, .card-clean {
+  background-color: #ffffff;
+  border: 1px solid var(--card-border);
+  border-radius: 1.5rem; /* 24px */
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04), 0 2px 6px -1px rgba(15, 23, 42, 0.02);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease;
+}
+
+.soft-card:hover, .card-clean:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px -4px rgba(15, 41, 66, 0.12), 0 6px 14px -2px rgba(15, 41, 66, 0.06);
+  border-color: rgba(15, 23, 42, 0.14);
+}
+
+/* بطاقات الأقسام الرئيسية الثلاثة حسب المنشأ */
+.origin-category-card {
+  background-color: #ffffff;
+  border: 1px solid var(--card-border);
+  border-radius: 1.5rem; /* 24px */
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.origin-category-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px -6px rgba(15, 41, 66, 0.14), 0 6px 16px -2px rgba(15, 41, 66, 0.06);
+  border-color: rgba(220, 38, 38, 0.4);
+}
+
+/* الأزرار الكبسولية وتأثيرات التحويم والضغط الفورية (Micro-interactions) */
+.btn-pill {
+  border-radius: 9999px !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-pill:hover {
+  transform: scale(1.02);
+}
+
+.btn-pill:active {
+  transform: scale(0.98);
+}
+
+/* بطاقات الماركات */
+.brand-card-item {
+  border-radius: 1.25rem !important;
+  border: 1px solid var(--card-border);
+  box-shadow: 0 2px 10px -2px rgba(15, 23, 42, 0.03);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.brand-card-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 28px -4px rgba(15, 41, 66, 0.1);
+  border-color: var(--corporate-red);
+}
+
+/* ضمان عدم تشويه الصور */
+.img-ratio-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* زر الواتساب العائم الكبسولي */
+.floating-whatsapp-btn {
+  position: fixed;
+  bottom: 24px;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html[dir="rtl"] .floating-whatsapp-btn {
+  left: 24px;
+}
+
+html[dir="ltr"] .floating-whatsapp-btn {
+  right: 24px;
+}
+
+.floating-whatsapp-btn:hover {
+  transform: translateY(-3px) scale(1.03);
+}
+
+.wa-pulse-soft {
+  animation: pulse-soft 2.5s infinite;
+}
+
+@keyframes pulse-soft {
+  0% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 12px rgba(37, 211, 102, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+  }
+}
+
+/* ====================================================
+   تأثيرات الظهور والانسيابية مع التمرير (Scroll Reveal)
+   ==================================================== */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-on-scroll.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* فترات التتابع الزمني (Staggered Delays) */
+.delay-100 { transition-delay: 100ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; }
+.delay-400 { transition-delay: 400ms; }
+.delay-500 { transition-delay: 500ms; }
+
+/* روابط التخفي للإدارة (Easter Egg) */
+.easter-egg-link {
+  color: inherit !important;
+  text-decoration: none !important;
+  cursor: default !important;
+}
+
+.easter-egg-link:hover {
+  color: inherit !important;
+  text-decoration: none !important;
+}
